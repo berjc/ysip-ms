@@ -1,8 +1,8 @@
-""" Windows Key Logger
+""" Windows Key Logger Payload
 
 Usage:
 
-  $ win-key-logger [-h|--help]
+  $ python win-key-logger.py [-h|--help]
 
 """
 import argparse
