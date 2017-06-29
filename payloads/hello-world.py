@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """ Hello World Payload
 
 Usage:

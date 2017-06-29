@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 """ Windows Key Logger Payload
 
 Usage:
