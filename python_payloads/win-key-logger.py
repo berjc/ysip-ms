@@ -78,7 +78,7 @@ def main():
 
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   s.connect((args.host_name, args.port_number))
-  s.send(LOG)
+  s.send(''.join(LOG))
   s.close()
 
 
